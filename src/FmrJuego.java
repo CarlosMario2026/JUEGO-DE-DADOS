@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -7,11 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class FmrJuego extends JFrame {
-    // metodo constructor
+    private Dado dado1 =new Dado();
+    private Dado dado2 =new Dado();
+    private Random r = new Random();
+    private JLabel lblDado1, lblDado2, lblLanzamiento, lblCenas;
 
-    /**
-     * 
-     */
+    private int lanzamiento, cenas;
+
+
+
+    // metodo constructor
     public FmrJuego() {
         setSize(500, 270);
         setTitle("JUGUEMOS A LOS DADOS");
@@ -21,11 +28,11 @@ public class FmrJuego extends JFrame {
         String archivoImagen = "imagenes/3.jpg";
         ImageIcon imgDado = new ImageIcon(getClass().getResource(archivoImagen));
 
-        JLabel lblDado1 = new JLabel(imgDado);
+        lblDado1 = new JLabel(imgDado);
         lblDado1.setBounds(10, 40, imgDado.getIconWidth(), imgDado.getIconHeight());
         add(lblDado1);
 
-        JLabel lblDado2 = new JLabel(imgDado);
+        lblDado2 = new JLabel(imgDado);
         lblDado2.setBounds(20 + imgDado.getIconWidth(), 40, imgDado.getIconWidth(), imgDado.getIconHeight());
         add(lblDado2);
 
@@ -34,7 +41,7 @@ public class FmrJuego extends JFrame {
         lblTituloLanzamiento.setHorizontalAlignment(JLabel.CENTER);
         add(lblTituloLanzamiento);
 
-        JLabel lblLanzamiento = new JLabel("0");
+        lblLanzamiento = new JLabel("0");
         lblLanzamiento.setBounds(30 + 2 * imgDado.getIconWidth(), 45, 100, 100);
         lblLanzamiento.setFont(new Font("impact", Font.BOLD, 72));
         lblLanzamiento.setHorizontalAlignment(JLabel.RIGHT);
@@ -48,7 +55,7 @@ public class FmrJuego extends JFrame {
         lblTituloCenas.setHorizontalAlignment(JLabel.CENTER);
         add(lblTituloCenas);
 
-        JLabel lblCenas = new JLabel("0");
+        lblCenas = new JLabel("0");
         lblCenas.setBounds(140 + 2 * imgDado.getIconWidth(), 45, 100, 100);
         lblCenas.setFont(new Font("impact", Font.BOLD, 72));
         lblCenas.setHorizontalAlignment(JLabel.RIGHT);
@@ -74,9 +81,28 @@ public class FmrJuego extends JFrame {
             });
     }
     private void iniciarLanzamientos() {
-        JOptionPane.showMessageDialog(null,"Hizo Clic en INICIAR");
+        lanzamiento = 0;
+        lblLanzamiento.setText(String.valueOf(lanzamiento));
+
+        cenas = 0;
+        lblCenas.setText(String.valueOf(cenas));
+        
     }    
     private void lanzarDados() {
-        JOptionPane.showMessageDialog(null,"Hizo Clic en LANZAR");
+        dado1.lanzar(r);
+        dado2.lanzar(r);
+
+        dado1.mostrar(lblDado1);
+        dado2.mostrar(lblDado2);
+
+        lanzamiento++;
+        lblLanzamiento.setText(String.valueOf(lanzamiento));
+
+        if(dado1.getNumero() + dado2.getNumero() >= 11){
+            cenas++;
+            lblCenas.setText(String.valueOf(cenas));
+
+        }
+
     }
 }
